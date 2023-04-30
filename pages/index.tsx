@@ -321,7 +321,7 @@ export default function Home() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a href="https://github.com/hwchase17/langchainjs" target='_blank'>
+          <a href="https://js.langchain.com" target='_blank'>
             Powered by LangChain.js.
           </a>
         </footer>
