@@ -9,6 +9,10 @@ import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 import { Chroma } from 'langchain/vectorstores/chroma';
 import { Milvus } from 'langchain/vectorstores/milvus';
 
+export const config = {
+  runtime: "edge",
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
