@@ -1,9 +1,9 @@
 {
-  "name": "gpt4-langchain-pdf-chatbot",
+  "name": "gpt4-docs-chatbot",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
-  "author": "Mayooear<twitter:@mayowaoshin>",
+  "author": "Inflaton",
   "type": "module",
   "scripts": {
     "dev": "next dev",
@@ -55,12 +55,14 @@
     "starter",
     "gpt4",
     "pinecone",
+    "chromadb",
+    "milvus2",
+    "hnswlib",
     "typescript",
     "nextjs",
     "langchain",
-    "law",
-    "legal",
     "pdf",
+    "html",
     "openai"
   ]
 }
