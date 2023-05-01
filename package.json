@@ -4,7 +4,6 @@
   "private": true,
   "license": "MIT",
   "author": "Inflaton",
-  "type": "module",
   "scripts": {
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
