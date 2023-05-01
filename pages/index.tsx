@@ -44,6 +44,43 @@ export default function Home() {
     textAreaRef.current?.focus();
   }, []);
 
+  async function handleData(question: any, data: any, ctrl: AbortController) {
+    try {
+      if (data === '[DONE]') {
+        setMessageState((state) => ({
+          history: [...state.history, [question, state.pending ?? '']],
+          messages: [
+            ...state.messages,
+            {
+              type: 'apiMessage',
+              message: state.pending ?? '',
+              sourceDocs: state.pendingSourceDocs,
+            },
+          ],
+          pending: undefined,
+          pendingSourceDocs: undefined,
+        }));
+        setLoading(false);
+        ctrl.abort();
+      } else {
+        data = JSON.parse(data);
+        if (data.sourceDocs) {
+          setMessageState((state) => ({
+            ...state,
+            pendingSourceDocs: data.sourceDocs,
+          }));
+        } else if (data.data) {
+          setMessageState((state) => ({
+            ...state,
+            pending: (state.pending ?? '') + data.data,
+          }));
+        }
+      }
+    } catch (error) {
+      console.log('handleData error:', error);
+    }
+  }
+
   //handle form submission
   async function handleSubmit(e: any) {
     e.preventDefault();
@@ -76,55 +113,36 @@ export default function Home() {
     const ctrl = new AbortController();
 
     try {
-      fetchEventSource('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          question,
-          history,
-        }),
-        signal: ctrl.signal,
-        onmessage: (event) => {
-          if (event.data === '[DONE]') {
-            setMessageState((state) => ({
-              history: [...state.history, [question, state.pending ?? '']],
-              messages: [
-                ...state.messages,
-                {
-                  type: 'apiMessage',
-                  message: state.pending ?? '',
-                  sourceDocs: state.pendingSourceDocs,
-                },
-              ],
-              pending: undefined,
-              pendingSourceDocs: undefined,
-            }));
-            setLoading(false);
-            ctrl.abort();
-          } else {
-            const data = JSON.parse(event.data);
-            if (data.sourceDocs) {
-              setMessageState((state) => ({
-                ...state,
-                pendingSourceDocs: data.sourceDocs,
-              }));
-            } else {
-              setMessageState((state) => ({
-                ...state,
-                pending: (state.pending ?? '') + data.data,
-              }));
-            }
-          }
-        },
-      });
+      await fetchEventSource(
+        process.env.NEXT_PUBLIC_SUPABASE_URL ?
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/chat` :
+          '/api/chat',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            question,
+            history,
+          }),
+          signal: ctrl.signal,
+          onmessage(event) {
+            console.log(event);
+            handleData(question, event.data, ctrl);
+          },
+        });
     } catch (error) {
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
       console.log('error', error);
     }
   }
+
+  const onSubmit = useCallback(
+    handleSubmit,
+    [query],
+  );
 
   //prevent empty submissions
   const handleEnter = useCallback(
@@ -271,7 +289,7 @@ export default function Home() {
             </div>
             <div className={styles.center}>
               <div className={styles.cloudform}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={onSubmit}>
                   <textarea
                     disabled={loading}
                     onKeyDown={handleEnter}
