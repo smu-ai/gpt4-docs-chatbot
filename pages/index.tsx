@@ -116,7 +116,7 @@ export default function Home() {
       await fetchEventSource(
         process.env.NEXT_PUBLIC_SUPABASE_URL ?
           `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/chat` :
-          '/api/chat',
+          process.env.NEXT_PUBLIC_DOCS_CHAT_API_URL || '/api/chat',
         {
           method: 'POST',
           headers: {
