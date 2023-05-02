@@ -1,0 +1,5 @@
+[functions]
+deno_import_map = "./netlify/edge-functions/import_map.json"
+
+[dev]
+targetPort = 3200
