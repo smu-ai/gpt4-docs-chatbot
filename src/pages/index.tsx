@@ -253,7 +253,7 @@ export default function Home() {
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> <a target="_blank" href={doc.metadata.url}>{doc.metadata.url}</a>
+                                      <b>URL:</b> <a target="_blank" href={doc.metadata.url}>{doc.metadata.url}</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
