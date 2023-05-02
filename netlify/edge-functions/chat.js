@@ -18,6 +18,8 @@ const serve = async (req) => {
     if (!question) {
       throw new Error('No question in the request');
     }
+    const timer = `Elapsed time:`;
+    console.time(timer);
 
     const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
 
@@ -34,7 +36,7 @@ const serve = async (req) => {
     const callbackManagerForLLM = CallbackManager.fromHandlers({
       handleLLMNewToken: async (token) => {
         await writer.ready;
-        await sendData(JSON.stringify({ data: token }));
+        await sendData(JSON.stringify({ token }));
       },
       handleLLMEnd: async (output) => {
         console.log('handleLLMEnd:', output);
@@ -53,13 +55,14 @@ const serve = async (req) => {
         // console.log('handleChainEnd:', outputs);
 
         if (outputs.sourceDocuments) {
-          await writer.ready;
-
-          sendData(JSON.stringify({ sourceDocs: outputs.sourceDocuments }));
-          sendData('[DONE]');
-
           const answer = outputs.text;
           console.log('Answer:', answer);
+
+          console.timeEnd(timer);
+
+          await writer.ready;
+          sendData(JSON.stringify({ sourceDocs: outputs.sourceDocuments }));
+          await writer.close();
         }
       },
     });

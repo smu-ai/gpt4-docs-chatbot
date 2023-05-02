@@ -17,7 +17,7 @@ import {
 export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [sourceDocs, setSourceDocs] = useState<Document[]>([]);
+  const [sourceDocs] = useState<Document[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
     messages: Message[];
@@ -41,40 +41,25 @@ export default function Home() {
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    textAreaRef.current?.focus();
-  }, []);
+    if (!loading) {
+      textAreaRef.current?.focus();
+    }
+  }, [loading]);
 
   async function handleData(question: any, data: any, ctrl: AbortController) {
     try {
-      if (data === '[DONE]') {
+      console.log(data);
+      const parsedData = JSON.parse(data);
+      if (parsedData.sourceDocs) {
         setMessageState((state) => ({
-          history: [...state.history, [question, state.pending ?? '']],
-          messages: [
-            ...state.messages,
-            {
-              type: 'apiMessage',
-              message: state.pending ?? '',
-              sourceDocs: state.pendingSourceDocs,
-            },
-          ],
-          pending: undefined,
-          pendingSourceDocs: undefined,
+          ...state,
+          pendingSourceDocs: parsedData.sourceDocs,
         }));
-        setLoading(false);
-        ctrl.abort();
-      } else {
-        data = JSON.parse(data);
-        if (data.sourceDocs) {
-          setMessageState((state) => ({
-            ...state,
-            pendingSourceDocs: data.sourceDocs,
-          }));
-        } else if (data.data) {
-          setMessageState((state) => ({
-            ...state,
-            pending: (state.pending ?? '') + data.data,
-          }));
-        }
+      } else if (parsedData.token) {
+        setMessageState((state) => ({
+          ...state,
+          pending: (state.pending ?? '') + parsedData.token,
+        }));
       }
     } catch (error) {
       console.log('handleData error:', error);
@@ -128,8 +113,28 @@ export default function Home() {
           }),
           signal: ctrl.signal,
           onmessage(event) {
-            console.log(event);
             handleData(question, event.data, ctrl);
+          },
+          onclose() {
+            console.log("Connection closed by the server");
+            setMessageState((state) => ({
+              history: [...state.history, [question, state.pending ?? '']],
+              messages: [
+                ...state.messages,
+                {
+                  type: 'apiMessage',
+                  message: state.pending ?? '',
+                  sourceDocs: state.pendingSourceDocs,
+                },
+              ],
+              pending: undefined,
+              pendingSourceDocs: undefined,
+            }));
+            setLoading(false);
+            ctrl.abort();
+          },
+          onerror(err) {
+            console.log("There was an error from server", err);
           },
         });
     } catch (error) {

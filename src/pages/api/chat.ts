@@ -9,10 +9,6 @@ import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 import { Chroma } from 'langchain/vectorstores/chroma';
 import { Milvus } from 'langchain/vectorstores/milvus';
 
-// export const config = {
-//   runtime: "edge",
-// };
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -79,17 +75,15 @@ export default async function handler(
     res.write(`data: ${data}\n\n`);
   };
 
-  sendData(JSON.stringify({ data: '' }));
-
   //create chain
   const chain = makeChain(vectorStore, (token: string) => {
     if (EVENT_STREAM_ENABLED) {
-      sendData(JSON.stringify({ data: token }));
+      sendData(JSON.stringify({ token }));
     }
   });
 
   try {
-    const timer = `Elapsed@${VECTOR_STORE}`;
+    const timer = `Elapsed time:`;
     console.time(timer);
     //Ask a question
     const response = await chain.call({
@@ -101,13 +95,12 @@ export default async function handler(
     const answer = response.text;
     console.log('Answer:', answer);
     if (!EVENT_STREAM_ENABLED) {
-      sendData(JSON.stringify({ data: answer }));
+      sendData(JSON.stringify({ token: answer }));
     }
     sendData(JSON.stringify({ sourceDocs: response.sourceDocuments }));
   } catch (error) {
     console.log('error', error);
   } finally {
-    sendData('[DONE]');
     res.end();
   }
 }
