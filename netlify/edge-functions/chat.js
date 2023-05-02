@@ -15,7 +15,7 @@ const serve = async (req) => {
     const { question, history } = await req.json();
     console.log('Question:', question);
 
-    const readyToSendData = !history || history.length === 0;
+    let readyToSendData = !history || history.length === 0;
 
     if (!question) {
       throw new Error('No question in the request');
