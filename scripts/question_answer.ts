@@ -22,7 +22,7 @@ async function callChain(chain: ConversationalRetrievalQAChain, values: ChainVal
 
     console.log("\nSources:");
     for (const doc of result.sourceDocuments) {
-        // console.log('\t', doc.metadata.url);
+        console.log('\t', doc.pageContent);
         console.log(doc.metadata);
     }
     console.log("------------------------------------------------------------------------");
