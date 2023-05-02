@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "author": "Inflaton",
+  "type": "module",
   "scripts": {
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
@@ -16,19 +17,21 @@
     "lint": "eslint --ignore-path .gitignore \"**/*.+(ts|js|tsx)\"",
     "format": "prettier --ignore-path .gitignore \"**/*.+(ts|js|tsx)\" --write",
     "test": "tsx -r dotenv/config scripts/question_answer.ts",
-    "ingest": "tsx -r dotenv/config scripts/ingest-data.ts"
+    "load": "tsx -r dotenv/config scripts/load-data.ts"
   },
   "dependencies": {
     "@microsoft/fetch-event-source": "^2.0.1",
     "@pinecone-database/pinecone": "^0.0.12",
+    "@radix-ui/react-accordion": "^1.1.1",
     "@supabase/auth-helpers-nextjs": "^0.5.6",
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/supabase-js": "^2.11.0",
-    "@radix-ui/react-accordion": "^1.1.1",
     "@zilliz/milvus2-sdk-node": "^2.2.7",
     "chromadb": "^1.4.1",
     "clsx": "^1.2.1",
+    "cohere-ai": "^6.2.0",
     "dotenv": "^16.0.3",
+    "encoding": "^0.1.13",
     "hnswlib-node": "^1.4.2",
     "langchain": "^0.0.66",
     "lucide-react": "^0.125.0",
