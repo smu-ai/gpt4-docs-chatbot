@@ -90,10 +90,11 @@ export default async function handler(
       question: sanitizedQuestion,
       chat_history: history || [],
     });
-    console.timeEnd(timer);
 
     const answer = response.text;
     console.log('Answer:', answer);
+    console.timeEnd(timer);
+
     if (!EVENT_STREAM_ENABLED) {
       sendData(JSON.stringify({ token: answer }));
     }
