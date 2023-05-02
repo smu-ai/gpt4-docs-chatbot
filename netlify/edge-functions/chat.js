@@ -1,12 +1,11 @@
 import { CallbackManager } from "langchain/callbacks";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { corsHeaders } from "../_shared/cors.ts";
-import { initVectorStore } from "../_shared/vectorstore.ts";
-import { makeChain } from '../_shared/makechain.ts';
-import { ChainValues, LLMResult } from "langchain/dist/schema/index.js";
+import { corsHeaders } from "../_shared/cors.js";
+import { initVectorStore } from "../_shared/vectorstore.js";
+import { makeChain } from '../_shared/makechain.js';
 
 
-const serve = async (req: any) => {
+const serve = async (req) => {
   // This is needed if you're planning to invoke your function from a browser.
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -26,7 +25,7 @@ const serve = async (req: any) => {
     const stream = new TransformStream();
     const writer = stream.writable.getWriter();
 
-    const sendData = async (data: string) => {
+    const sendData = async (data) => {
       const res = `data: ${data}\n\n`;
       // console.log('sendData:', res);
       await writer.write(encoder.encode(res));
@@ -37,7 +36,7 @@ const serve = async (req: any) => {
         await writer.ready;
         await sendData(JSON.stringify({ data: token }));
       },
-      handleLLMEnd: async (output: LLMResult) => {
+      handleLLMEnd: async (output) => {
         console.log('handleLLMEnd:', output);
       },
       handleLLMError: async (e) => {
@@ -46,11 +45,11 @@ const serve = async (req: any) => {
     });
 
     const embeddings = new OpenAIEmbeddings();
-    const vectorStore = await initVectorStore(embeddings);
+    const vectorStore = await initVectorStore(embeddings, Deno.env);
     const chain = makeChain(vectorStore, callbackManagerForLLM);
 
     const callbackManagerForChain = CallbackManager.fromHandlers({
-      handleChainEnd: async (outputs: ChainValues) => {
+      handleChainEnd: async (outputs) => {
         // console.log('handleChainEnd:', outputs);
 
         if (outputs.sourceDocuments) {

@@ -11,6 +11,7 @@
     "supabase:deploy": "supabase secrets set --env-file ./supabase/.env && supabase functions deploy chat --import-map supabase/functions/import_map_deploy.json",
     "dev": "next dev -p 3200",
     "build": "next build",
+    "build-netlify": "cp netlify/package.json . && yarn build",
     "start": "next start",
     "type-check": "tsc --noEmit",
     "lint": "eslint --ignore-path .gitignore \"**/*.+(ts|js|tsx)\"",

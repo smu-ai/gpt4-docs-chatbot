@@ -19,9 +19,7 @@ If the question is not related to the context, politely respond that you are tun
 Question: {question}
 Helpful answer in markdown:`;
 
-export const makeChain = (vectorstore: VectorStore,
-  callbackManager: CallbackManager
-) => {
+export const makeChain = (vectorstore, callbackManager) => {
   const model = new OpenAIChat({
     temperature: 0,
     modelName: 'gpt-4', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
