@@ -15,6 +15,8 @@ const serve = async (req) => {
     const { question, history } = await req.json();
     console.log('Question:', question);
 
+    const readyToSendData = !history || history.length === 0;
+
     if (!question) {
       throw new Error('No question in the request');
     }
@@ -28,9 +30,11 @@ const serve = async (req) => {
     const writer = stream.writable.getWriter();
 
     const sendData = async (data) => {
-      const res = `data: ${data}\n\n`;
-      // console.log('sendData:', res);
-      await writer.write(encoder.encode(res));
+      if (readyToSendData) {
+        const res = `data: ${data}\n\n`;
+        // console.log('sendData:', res);
+        await writer.write(encoder.encode(res));
+      }
     };
 
     const callbackManagerForLLM = CallbackManager.fromHandlers({
@@ -40,6 +44,9 @@ const serve = async (req) => {
       },
       handleLLMEnd: async (output) => {
         console.log('handleLLMEnd:', output);
+        if (!readyToSendData) {
+          readyToSendData = true;
+        }
       },
       handleLLMError: async (e) => {
         console.log('handleLLMError:', e);
