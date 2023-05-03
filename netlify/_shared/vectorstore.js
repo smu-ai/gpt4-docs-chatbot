@@ -61,11 +61,11 @@ export const initVectorStore = async (embeddings, env) => {
 
     vectorStore = await Milvus.fromExistingCollection(embeddings,
       {
-        collectionName: MILVUS_COLLECTION_NAME!,
-        url: MILVUS_SERVER_URL!,
+        collectionName: MILVUS_COLLECTION_NAME,
+        url: MILVUS_SERVER_URL,
         username: MILVUS_DB_USERNAME,
         password: MILVUS_DB_PASSWORD,
-        ssl: MILVUS_SERVER_URL!.startsWith('https')
+        ssl: MILVUS_SERVER_URL.startsWith('https')
       });
   } else {
     const HNSWLIB_DB_DIR = env.get('HNSWLIB_DB_DIR');
