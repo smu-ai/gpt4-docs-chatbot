@@ -1,0 +1,37 @@
+$ next start
+ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+info  - Loaded env from /Users/inflaton/code/emtech/gpt/gpt4-docs-chatbot/.env
+Question:  What is Mastercard Priceless?
+initializing vector store:  pinecone
+handleLLMEnd: {"generations":[[{"text":"Mastercard Priceless is a program that offers unique experiences and exclusive offers to Mastercard cardholders. These experiences can include special events, dining experiences, travel opportunities, and more. By participating in the program, cardholders can access these exclusive benefits and enjoy memorable moments."}]]}
+Answer: Mastercard Priceless is a program that offers unique experiences and exclusive offers to Mastercard cardholders. These experiences can include special events, dining experiences, travel opportunities, and more. By participating in the program, cardholders can access these exclusive benefits and enjoy memorable moments.
+Elapsed time:: 11.172s
+Question:  Dining in New York
+initializing vector store:  pinecone
+handleLLMEnd: {"generations":[[{"text":"What are some exclusive dining experiences in New York offered through the Mastercard Priceless program?"}]]}
+handleLLMEnd: {"generations":[[{"text":"- [The Russian Tea Room](#): Enjoy a premium dinner for two at this iconic Manhattan institution, followed by a performance at Carnegie Hall.\n- [One World Observatory](#): Experience a private VIP tour, a three-course prix-fixe menu at ONE Dine, a US$15 voucher, and a commemorative gift.\n- [Hidden Leaf](#): Indulge in an exclusive \"Off the Menu\" tasting menu, welcome cocktails, and unique seating on Monday nights, along with meeting the chef."}]]}
+Answer: - [The Russian Tea Room](#): Enjoy a premium dinner for two at this iconic Manhattan institution, followed by a performance at Carnegie Hall.
+- [One World Observatory](#): Experience a private VIP tour, a three-course prix-fixe menu at ONE Dine, a US$15 voucher, and a commemorative gift.
+- [Hidden Leaf](#): Indulge in an exclusive "Off the Menu" tasting menu, welcome cocktails, and unique seating on Monday nights, along with meeting the chef.
+Elapsed time:: 24.784s
+Question:  Russian Tea Room?
+initializing vector store:  pinecone
+handleLLMEnd: {"generations":[[{"text":"What is the Russian Tea Room experience offered by Mastercard Priceless?"}]]}
+handleLLMEnd: {"generations":[[{"text":"The Russian Tea Room experience offered by Mastercard Priceless is an unforgettable night out in Manhattan for two. It includes a premium dinner at The Russian Tea Room, where you can savor exquisite cuisine and wine in the beautiful setting of the iconic restaurant. After dinner, the experience continues next door at Carnegie Hall, where you can enjoy an unforgettable performance. This experience is exclusively for Mastercard cardholders."}]]}
+Answer: The Russian Tea Room experience offered by Mastercard Priceless is an unforgettable night out in Manhattan for two. It includes a premium dinner at The Russian Tea Room, where you can savor exquisite cuisine and wine in the beautiful setting of the iconic restaurant. After dinner, the experience continues next door at Carnegie Hall, where you can enjoy an unforgettable performance. This experience is exclusively for Mastercard cardholders.
+Elapsed time:: 18.479s
+Question:  请推荐一下纽约的娱乐
+initializing vector store:  pinecone
+handleLLMEnd: {"generations":[[{"text":"Can you recommend some entertainment options in New York?"}]]}
+handleLLMEnd: {"generations":[[{"text":"Some entertainment options in New York include:\n\n- Visiting the Ambassador Theatre (0.4 km / 0.2 mi)\n- Exploring Madame Tussauds Wax Museum (0.4 km / 0.2 mi)\n- Watching a show at the Winter Garden Theatre (0.4 km / 0.3 mi)\n- Shopping on 5th Avenue (0.6 km / 0.4 mi)\n- Catching a performance at the Broadway Theatre (0.6 km / 0.4 mi)\n- Enjoying a musical at the Gershwin Theater (0.6 km / 0.4 mi)\n\nPlease note that I can only provide information related to the given context."}]]}
+Answer: Some entertainment options in New York include:
+
+- Visiting the Ambassador Theatre (0.4 km / 0.2 mi)
+- Exploring Madame Tussauds Wax Museum (0.4 km / 0.2 mi)
+- Watching a show at the Winter Garden Theatre (0.4 km / 0.3 mi)
+- Shopping on 5th Avenue (0.6 km / 0.4 mi)
+- Catching a performance at the Broadway Theatre (0.6 km / 0.4 mi)
+- Enjoying a musical at the Gershwin Theater (0.6 km / 0.4 mi)
+
+Please note that I can only provide information related to the given context.
+Elapsed time:: 28.184s

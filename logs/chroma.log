@@ -1,0 +1,29 @@
+$ next start
+ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+info  - Loaded env from /Users/inflaton/code/emtech/gpt/gpt4-docs-chatbot/.env
+Question:  What is Mastercard Priceless?
+initializing vector store:  chroma
+handleLLMEnd: {"generations":[[{"text":"Mastercard Priceless is a program that offers unique experiences and exclusive offers to Mastercard cardholders. These experiences can include special events, dining experiences, travel opportunities, and more. By participating in the program, cardholders agree to the terms and conditions, as well as the Priceless® Terms of Use, which can be found at [https://www.priceless.com/terms/en_US](https://www.priceless.com/terms/en_US). Mastercard and Priceless are registered marks, and the circles design is a trademark, of Mastercard International Incorporated."}]]}
+Answer: Mastercard Priceless is a program that offers unique experiences and exclusive offers to Mastercard cardholders. These experiences can include special events, dining experiences, travel opportunities, and more. By participating in the program, cardholders agree to the terms and conditions, as well as the Priceless® Terms of Use, which can be found at [https://www.priceless.com/terms/en_US](https://www.priceless.com/terms/en_US). Mastercard and Priceless are registered marks, and the circles design is a trademark, of Mastercard International Incorporated.
+Elapsed time:: 33.166s
+Question:  Dining in New York
+initializing vector store:  chroma
+handleLLMEnd: {"generations":[[{"text":"What dining experiences are available in New York through the Mastercard Priceless program?"}]]}
+handleLLMEnd: {"generations":[[{"text":"There are two dining experiences available in New York through the Mastercard Priceless program:\n\n1. A premium dinner for two at The Russian Tea Room, followed by a performance at Carnegie Hall.\n2. A three-course prix-fixe menu at ONE Dine, located at One World Observatory, along with a private VIP tour of the observatory, a US$15 voucher, and a commemorative gift."}]]}
+Answer: There are two dining experiences available in New York through the Mastercard Priceless program:
+
+1. A premium dinner for two at The Russian Tea Room, followed by a performance at Carnegie Hall.
+2. A three-course prix-fixe menu at ONE Dine, located at One World Observatory, along with a private VIP tour of the observatory, a US$15 voucher, and a commemorative gift.
+Elapsed time:: 22.925s
+Question:  Russian Tea Room?
+initializing vector store:  chroma
+handleLLMEnd: {"generations":[[{"text":"What is the Russian Tea Room experience offered through the Mastercard Priceless program?"}]]}
+handleLLMEnd: {"generations":[[{"text":"The Russian Tea Room experience offered through the Mastercard Priceless program is an unforgettable night out in Manhattan for Mastercard cardholders. It includes a premium dinner for two at The Russian Tea Room, where guests can enjoy exquisite cuisine and wine in the iconic restaurant. After dinner, the experience continues next door at Carnegie Hall, where guests can enjoy an unforgettable performance. This experience is exclusively for US Mastercard cardholders who are registered members of Priceless.com."}]]}
+Answer: The Russian Tea Room experience offered through the Mastercard Priceless program is an unforgettable night out in Manhattan for Mastercard cardholders. It includes a premium dinner for two at The Russian Tea Room, where guests can enjoy exquisite cuisine and wine in the iconic restaurant. After dinner, the experience continues next door at Carnegie Hall, where guests can enjoy an unforgettable performance. This experience is exclusively for US Mastercard cardholders who are registered members of Priceless.com.
+Elapsed time:: 21.042s
+Question:  请推荐一下纽约的娱乐
+initializing vector store:  chroma
+handleLLMEnd: {"generations":[[{"text":"Can you recommend some entertainment options in New York?"}]]}
+handleLLMEnd: {"generations":[[{"text":"I'm sorry, but I am only able to answer questions related to the provided context. Please provide relevant context for me to assist you with your question."}]]}
+Answer: I'm sorry, but I am only able to answer questions related to the provided context. Please provide relevant context for me to assist you with your question.
+Elapsed time:: 8.790s

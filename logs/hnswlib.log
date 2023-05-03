@@ -1,0 +1,37 @@
+$ next start
+ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+info  - Loaded env from /Users/inflaton/code/emtech/gpt/gpt4-docs-chatbot/.env
+Question:  What is Mastercard Priceless?
+initializing vector store:  hnswlib
+handleLLMEnd: {"generations":[[{"text":"Mastercard Priceless is a program that offers unique experiences and exclusive offers to Mastercard cardholders. By participating in the program, cardholders can access special events, promotions, and opportunities that are not available to the general public. The program is governed by the Priceless® Terms of Use, which can be found at [https://www.priceless.com/terms/en_US](https://www.priceless.com/terms/en_US). Mastercard and Priceless are registered marks, and the circles design is a trademark, of Mastercard International Incorporated."}]]}
+Answer: Mastercard Priceless is a program that offers unique experiences and exclusive offers to Mastercard cardholders. By participating in the program, cardholders can access special events, promotions, and opportunities that are not available to the general public. The program is governed by the Priceless® Terms of Use, which can be found at [https://www.priceless.com/terms/en_US](https://www.priceless.com/terms/en_US). Mastercard and Priceless are registered marks, and the circles design is a trademark, of Mastercard International Incorporated.
+Elapsed time:: 17.453s
+Question:  Dining in New York
+initializing vector store:  hnswlib
+handleLLMEnd: {"generations":[[{"text":"What are the dining experiences and offers available in New York through the Mastercard Priceless program?"}]]}
+handleLLMEnd: {"generations":[[{"text":"There are two dining experiences available in New York through the Mastercard Priceless program:\n\n1. **The Russian Tea Room Experience**: This includes a premium dinner for two at The Russian Tea Room, followed by a performance at Carnegie Hall. This experience is exclusively for Mastercard cardholders.\n\n2. **One World Observatory Experience**: This includes a private VIP tour of the observatory, a three-course prix-fixe menu at ONE Dine, a US$15 voucher to spend in the gift shop, bar, or café, and a commemorative gift. This experience is also exclusively for Mastercard cardholders."}]]}
+Answer: There are two dining experiences available in New York through the Mastercard Priceless program:
+
+1. **The Russian Tea Room Experience**: This includes a premium dinner for two at The Russian Tea Room, followed by a performance at Carnegie Hall. This experience is exclusively for Mastercard cardholders.
+
+2. **One World Observatory Experience**: This includes a private VIP tour of the observatory, a three-course prix-fixe menu at ONE Dine, a US$15 voucher to spend in the gift shop, bar, or café, and a commemorative gift. This experience is also exclusively for Mastercard cardholders.
+Elapsed time:: 24.812s
+Question:  Russian Tea Room?
+initializing vector store:  hnswlib
+handleLLMEnd: {"generations":[[{"text":"What is the Russian Tea Room experience in the Mastercard Priceless program?"}]]}
+handleLLMEnd: {"generations":[[{"text":"I'm sorry, but I do not have information about the Russian Tea Room experience in the Mastercard Priceless program. My knowledge is limited to the context provided above."}]]}
+Answer: I'm sorry, but I do not have information about the Russian Tea Room experience in the Mastercard Priceless program. My knowledge is limited to the context provided above.
+Elapsed time:: 10.547s
+Question:  请推荐一下纽约的娱乐
+initializing vector store:  hnswlib
+handleLLMEnd: {"generations":[[{"text":"Can you recommend some entertainment options in New York?"}]]}
+handleLLMEnd: {"generations":[[{"text":"Some entertainment options in New York near the Marriott Marquis include:\n\n- Ambassador Theatre (0.4 km / 0.2 mi)\n- Madame Tussauds Wax Museum (0.4 km / 0.2 mi)\n- Winter Garden Theatre (0.4 km / 0.3 mi)\n- 5th Avenue (0.6 km / 0.4 mi)\n- Broadway Theatre (0.6 km / 0.4 mi)\n- Gershwin Theater (0.6 km / 0.4 mi)"}]]}
+Answer: Some entertainment options in New York near the Marriott Marquis include:
+
+- Ambassador Theatre (0.4 km / 0.2 mi)
+- Madame Tussauds Wax Museum (0.4 km / 0.2 mi)
+- Winter Garden Theatre (0.4 km / 0.3 mi)
+- 5th Avenue (0.6 km / 0.4 mi)
+- Broadway Theatre (0.6 km / 0.4 mi)
+- Gershwin Theater (0.6 km / 0.4 mi)
+Elapsed time:: 21.927s
