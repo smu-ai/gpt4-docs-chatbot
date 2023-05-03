@@ -1,0 +1,29 @@
+$ next start
+ready - started server on 0.0.0.0:3000, url: http://localhost:3000
+info  - Loaded env from /Users/inflaton/code/emtech/gpt/gpt4-docs-chatbot/.env
+Question:  What is Mastercard Priceless?
+initializing vector store:  milvus
+handleLLMEnd: {"generations":[[{"text":"Mastercard Priceless is a program exclusively for Mastercard cardholders who are registered members of Priceless.com. It offers unique experiences, such as the guided video tour with Coutours that lets you explore London without leaving the house. These experiences are available for download and are free of charge. To participate, cardholders must agree to the Terms and Conditions provided on the website."}]]}
+Answer: Mastercard Priceless is a program exclusively for Mastercard cardholders who are registered members of Priceless.com. It offers unique experiences, such as the guided video tour with Coutours that lets you explore London without leaving the house. These experiences are available for download and are free of charge. To participate, cardholders must agree to the Terms and Conditions provided on the website.
+Elapsed time:: 14.406s
+Question:  Dining in New York
+initializing vector store:  milvus
+handleLLMEnd: {"generations":[[{"text":"What dining experiences are available in New York through the Mastercard Priceless program?"}]]}
+handleLLMEnd: {"generations":[[{"text":"There are two dining experiences available in New York through the Mastercard Priceless program:\n\n1. A premium dinner for two at The Russian Tea Room, followed by a performance at Carnegie Hall.\n2. A three-course prix-fixe menu at ONE Dine, located at One World Observatory, along with a private VIP tour of the observatory, a US$15 voucher, and a commemorative gift."}]]}
+Answer: There are two dining experiences available in New York through the Mastercard Priceless program:
+
+1. A premium dinner for two at The Russian Tea Room, followed by a performance at Carnegie Hall.
+2. A three-course prix-fixe menu at ONE Dine, located at One World Observatory, along with a private VIP tour of the observatory, a US$15 voucher, and a commemorative gift.
+Elapsed time:: 19.200s
+Question:  Russian Tea Room?
+initializing vector store:  milvus
+handleLLMEnd: {"generations":[[{"text":"What is the Russian Tea Room experience offered through the Mastercard Priceless program?"}]]}
+handleLLMEnd: {"generations":[[{"text":"The Russian Tea Room experience offered through the Mastercard Priceless program is an unforgettable night out in Manhattan, which includes a premium dinner for two at The Russian Tea Room and a performance at Carnegie Hall. This experience is exclusively for Mastercard cardholders who are registered members of Priceless.com."}]]}
+Answer: The Russian Tea Room experience offered through the Mastercard Priceless program is an unforgettable night out in Manhattan, which includes a premium dinner for two at The Russian Tea Room and a performance at Carnegie Hall. This experience is exclusively for Mastercard cardholders who are registered members of Priceless.com.
+Elapsed time:: 17.747s
+Question:  请推荐一下纽约的娱乐
+initializing vector store:  milvus
+handleLLMEnd: {"generations":[[{"text":"Can you recommend some entertainment options in New York?"}]]}
+handleLLMEnd: {"generations":[[{"text":"I am currently tuned to only answer questions related to the provided context. However, some highlights mentioned in the context include taking a 50-minute restorative yoga and meditation class, finding your zen aboard the Hudson River Sloop Clearwater, and appreciating the scenery of the Statue of Liberty and the Manhattan skyline."}]]}
+Answer: I am currently tuned to only answer questions related to the provided context. However, some highlights mentioned in the context include taking a 50-minute restorative yoga and meditation class, finding your zen aboard the Hudson River Sloop Clearwater, and appreciating the scenery of the Statue of Liberty and the Manhattan skyline.
+Elapsed time:: 15.327s
