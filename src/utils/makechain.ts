@@ -19,30 +19,23 @@ If the question is not related to the context, politely respond that you are tun
 Question: {question}
 Helpful answer in markdown:`;
 
-export const makeChain = (vectorstore: VectorStore,
-  onTokenStream?: (token: string) => void
-) => {
+export const makeChain = (vectorStore: VectorStore, callbackManager: CallbackManager) => {
   const model = new OpenAIChat({
     temperature: 0,
     modelName: 'gpt-4', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
-    streaming: Boolean(onTokenStream),
-    callbackManager: onTokenStream
-      ? CallbackManager.fromHandlers({
-        async handleLLMNewToken(token) {
-          onTokenStream(token);
-        },
-      })
-      : undefined,
+    streaming: Boolean(callbackManager),
+    callbackManager
   });
 
   const chain = ConversationalRetrievalQAChain.fromLLM(
     model,
-    vectorstore.asRetriever(),
+    vectorStore.asRetriever(),
     {
       qaTemplate: QA_PROMPT,
       questionGeneratorTemplate: CONDENSE_PROMPT,
       returnSourceDocuments: true, //The number of source documents returned is 4 by default
     },
   );
+
   return chain;
 };

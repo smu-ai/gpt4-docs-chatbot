@@ -11,18 +11,28 @@ const serve = async (req) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
+  //only accept post requests
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   try {
     const { question, history } = await req.json();
     console.log('Question:', question);
 
-    let readyToSendData = !history || history.length === 0;
-
     if (!question) {
       throw new Error('No question in the request');
     }
+
+    let readyToSendData = !history || history.length === 0;
+
     const timer = `Elapsed time:`;
     console.time(timer);
 
+    // OpenAI recommends replacing newlines with spaces for best results
     const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
 
     const encoder = new TextEncoder();
