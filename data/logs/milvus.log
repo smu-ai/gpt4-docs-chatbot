@@ -1,6 +1,6 @@
 $ next start
 ready - started server on 0.0.0.0:3000, url: http://localhost:3000
-info  - Loaded env from /Users/inflaton/code/emtech/gpt/gpt4-docs-chatbot/.env
+info  - Loaded env from ./.env
 Question:  What is Mastercard Priceless?
 initializing vector store:  milvus
 handleLLMEnd: {"generations":[[{"text":"Mastercard Priceless is a program exclusively for Mastercard cardholders who are registered members of Priceless.com. It offers unique experiences, such as the guided video tour with Coutours that lets you explore London without leaving the house. These experiences are available for download and are free of charge. To participate, cardholders must agree to the Terms and Conditions provided on the website."}]]}

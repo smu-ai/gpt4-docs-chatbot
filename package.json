@@ -14,10 +14,10 @@
     "lint": "eslint --ignore-path .gitignore \"**/*.+(ts|js|tsx)\"",
     "format": "prettier --ignore-path .gitignore \"**/*.+(ts|js|tsx)\" --write",
     "test": "tsx -r dotenv/config scripts/question_answer.ts",
-    "pinecone": "yarn build && yarn start | tee logs/pinecone.log",
-    "hnswlib": "yarn build && yarn start | tee logs/hnswlib.log",
-    "chroma": "yarn build && yarn start | tee logs/chroma.log",
-    "milvus": "yarn build && yarn start | tee logs/milvus.log",
+    "pinecone": "yarn build && yarn start | tee data/logs/pinecone.log",
+    "hnswlib": "yarn build && yarn start | tee data/logs/hnswlib.log",
+    "chroma": "yarn build && yarn start | tee data/logs/chroma.log",
+    "milvus": "yarn build && yarn start | tee data/logs/milvus.log",
     "load": "tsx -r dotenv/config scripts/load-data.ts"
   },
   "dependencies": {
