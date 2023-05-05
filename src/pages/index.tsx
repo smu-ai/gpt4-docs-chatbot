@@ -27,7 +27,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi, what would you like to experience?',
+        message: process.env.NEXT_PUBLIC_HELLO || 'Hi, what would you like to experience?',
         type: 'apiMessage',
       },
     ],
@@ -98,10 +98,7 @@ export default function Home() {
     const ctrl = new AbortController();
 
     try {
-      await fetchEventSource(
-        process.env.NEXT_PUBLIC_SUPABASE_URL ?
-          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/chat` :
-          process.env.NEXT_PUBLIC_DOCS_CHAT_API_URL || '/api/chat',
+      await fetchEventSource(process.env.NEXT_PUBLIC_DOCS_CHAT_API_URL || '/api/chat',
         {
           method: 'POST',
           headers: {
@@ -188,7 +185,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat with Mastercard Priceless
+            {process.env.NEXT_PUBLIC_TITLE || 'Chat with Mastercard Priceless'}
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -251,14 +248,14 @@ export default function Home() {
                               <div key={`messageSourceDocs-${index}`}>
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
-                                    <h3>Source {index + 1}</h3>
+                                    <h3>{process.env.NEXT_PUBLIC_SOURCE || 'Source'} {index + 1}</h3>
                                   </AccordionTrigger>
                                   <AccordionContent>
                                     <ReactMarkdown linkTarget="_blank">
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>URL:</b> <a target="_blank" href={doc.metadata.url}>{doc.metadata.url}</a>
+                                      <b>{process.env.NEXT_PUBLIC_URL || 'URL'}:</b> <a target="_blank" href={doc.metadata.url}>{doc.metadata.url}</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
@@ -277,7 +274,7 @@ export default function Home() {
                         <div key={`SourceDocs-${index}`}>
                           <AccordionItem value={`item-${index}`}>
                             <AccordionTrigger>
-                              <h3>Source {index + 1}</h3>
+                              <h3>{process.env.NEXT_PUBLIC_SOURCE || 'Source'} {index + 1}</h3>
                             </AccordionTrigger>
                             <AccordionContent>
                               <ReactMarkdown linkTarget="_blank">
@@ -306,8 +303,8 @@ export default function Home() {
                     name="userInput"
                     placeholder={
                       loading
-                        ? 'Waiting for response...'
-                        : 'What is your question?'
+                        ? process.env.NEXT_PUBLIC_WAITING || 'Waiting for response...'
+                        : process.env.NEXT_PUBLIC_QUESTION || 'What is your question?'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -344,8 +341,10 @@ export default function Home() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a href="https://js.langchain.com" target='_blank'>
-            Powered by LangChain.js.
+          <a href={process.env.NEXT_PUBLIC_FOOTER_LINK || "https://js.langchain.com"} target='_blank'>
+            {process.env.NEXT_PUBLIC_FOOTER1 || 'Powered by LangChain.js.'}
+            <br />
+            {process.env.NEXT_PUBLIC_FOOTER2 || ''}
           </a>
         </footer>
       </Layout>

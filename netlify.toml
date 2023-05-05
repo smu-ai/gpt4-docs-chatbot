@@ -8,11 +8,23 @@ deno_import_map = "./netlify/edge-functions/import_map.json"
 targetPort = 3000
 
 [template.environment]
-NODE_VERSION='please set NODE_VERSION to 18.14.0'
-NEXT_PUBLIC_DOCS_CHAT_API_URL='please set NEXT_PUBLIC_DOCS_CHAT_API_URL to /chat'
-VECTOR_STORE='please set VECTOR_STORE to pinecone'
-PINECONE_API_KEY='change me for your Pinecone api key'
-PINECONE_ENVIRONMENT='change me for your Pinecone environment'
-PINECONE_INDEX_NAME='change me for your Pinecone index name'
-PINECONE_NAME_SPACE='change me for your Pinecone name space'
-OPENAI_API_KEY='change me for your OpenAI api key'
+NODE_VERSION='NODE_VERSION->18.14.0'
+NEXT_PUBLIC_DOCS_CHAT_API_URL='NEXT_PUBLIC_DOCS_CHAT_API_URL->/chat'
+VECTOR_STORE='VECTOR_STORE->pinecone'
+PINECONE_API_KEY='Pinecone API key'
+PINECONE_ENVIRONMENT='Pinecone environment'
+PINECONE_INDEX_NAME='Pinecone index name'
+PINECONE_NAME_SPACE='Pinecone name space'
+OPENAI_API_KEY='OpenAI API key'
+
+# Customize UI
+NEXT_PUBLIC_HOME_PAGE='Home'
+NEXT_PUBLIC_TITLE='Title'
+NEXT_PUBLIC_HELLO='Hello'
+NEXT_PUBLIC_QUESTION='Question'
+NEXT_PUBLIC_WAITING='Waiting'
+NEXT_PUBLIC_FOOTER1='Footer 1'
+NEXT_PUBLIC_FOOTER2='Footer 2'
+NEXT_PUBLIC_FOOTER_LINK='Footer Link'
+NEXT_PUBLIC_SOURCE='Source'
+NEXT_PUBLIC_URL='URL'
