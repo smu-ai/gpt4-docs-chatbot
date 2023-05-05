@@ -18,18 +18,21 @@ Tech stack used includes LangChain, Typescript, OpenAI, Next.js, HNSWLib, Chroma
 
 ## Running Locally
 
-Run `node -v` to make sure you're running Node version 18 or above. 
+1. Check pre-conditions:
 
-1. Clone the repo or download the ZIP
+- Run `node -v` to make sure you're running Node version 18 or above.
+- If not done already, run `npm install -g yarn` to install yarn globally.
+- [Git Large File Storage (LFS)](https://github.com/git-lfs/git-lfs) must have been installed.
+
+2. Clone the repo or download the ZIP
 
 ```
 git clone [github https url]
 ```
 
 
-2. Install packages
+3. Install packages
 
-If not done already, run `npm install -g yarn` to install yarn globally.
 
 Then run:
 
@@ -37,7 +40,7 @@ Then run:
 yarn install
 ```
 
-3. Set up your `.env` file
+4. Set up your `.env` file
 
 - Copy `.env.example` into `.env`. Your `.env` file should look like this:
 
@@ -77,7 +80,7 @@ yarn load
 - If you want to use another vectorstore, i.e., Chroma, Milvus or Pinecone, you will need to uncomment the correct `VECTOR_STORE` line, set up the corresponding env variables and then load the embeddings from folder `HNSWLIB_DB_DIR` to the vectorstore by running `yarn load` command. This will not incur any cost as no OpenAI API will be called.
 
 
-4. Start the local server at `http://localhost:3000`:
+5. Start the local server at `http://localhost:3000`:
 
 ```
 yarn dev
@@ -90,12 +93,7 @@ Deploy the project using  [Netlify](https://docs.netlify.com/site-deploys/create
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/inflaton/gpt4-docs-chatbot)
 
 
-- Please use the following build command:
-```
-yarn build-netlify
-```
-
-- As the backend API will be deployed as an edge function at path `/chat`, please set up the environment variable `NEXT_PUBLIC_DOCS_CHAT_API_URL` to `'/caht'`, along with `OPENAI_API_KEY` and other ones. 
+- As the backend API will be deployed as an edge function at path `/chat`, please set up the environment variable `NEXT_PUBLIC_DOCS_CHAT_API_URL` to `'/chat'`, along with `OPENAI_API_KEY` and other ones. 
 - E.g., below are the environment variables required for using Pinecone vectorstore.
 ```
 NODE_VERSION='18.14.0'

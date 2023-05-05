@@ -1,3 +1,6 @@
+[build]
+command = "yarn build-netlify"
+
 [functions]
 deno_import_map = "./netlify/edge-functions/import_map.json"
 
