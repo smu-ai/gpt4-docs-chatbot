@@ -1,4 +1,4 @@
-const VECTOR_STORE = process.env.VECTOR_STORE;
+const VECTOR_STORE = process.env.VECTOR_STORE!.toLowerCase();
 const HNSWLIB_DB_DIR = process.env.HNSWLIB_DB_DIR;
 const SOURCE_FILES_DIR = process.env.SOURCE_FILES_DIR;
 const CHROMA_SERVER_URL = process.env.CHROMA_SERVER_URL;

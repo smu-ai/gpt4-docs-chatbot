@@ -95,9 +95,10 @@ Deploy the project using  [Netlify](https://docs.netlify.com/site-deploys/create
 yarn build-netlify
 ```
 
-- As the backend API will be deployed as an edge function at path `/chat`, please set up the environment variable `NEXT_PUBLIC_DOCS_CHAT_API_URL` to `'/caht'`, along with `OPENAI_API_KEY` and vectorstore related ones. 
+- As the backend API will be deployed as an edge function at path `/chat`, please set up the environment variable `NEXT_PUBLIC_DOCS_CHAT_API_URL` to `'/caht'`, along with `OPENAI_API_KEY` and other ones. 
 - E.g., below are the environment variables required for using Pinecone vectorstore.
 ```
+NODE_VERSION='18.14.0'
 NEXT_PUBLIC_DOCS_CHAT_API_URL='/chat'
 VECTOR_STORE='pinecone'
 PINECONE_API_KEY=

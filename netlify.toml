@@ -5,6 +5,7 @@ deno_import_map = "./netlify/edge-functions/import_map.json"
 targetPort = 3000
 
 [template.environment]
+NODE_VERSION='18.14.0'
 NEXT_PUBLIC_DOCS_CHAT_API_URL='/chat'
 VECTOR_STORE='pinecone'
 PINECONE_API_KEY='change me for your Pinecone api key'

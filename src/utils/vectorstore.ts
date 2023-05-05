@@ -26,7 +26,7 @@ async function initPinecone(env: any) {
 }
 
 export const initVectorStore = async (embeddings: Embeddings, env: any) => {
-  const VECTOR_STORE = env.get('VECTOR_STORE');
+  const VECTOR_STORE = env.get('VECTOR_STORE').toLowerCase();
   console.log('initializing vector store: ', VECTOR_STORE);
 
   let vectorStore
