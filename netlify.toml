@@ -6,7 +6,7 @@ targetPort = 3000
 
 [template.environment]
 NEXT_PUBLIC_DOCS_CHAT_API_URL='/chat'
-VECTOR_STORE=pinecone
+VECTOR_STORE='pinecone'
 PINECONE_API_KEY='change me for your Pinecone api key'
 PINECONE_ENVIRONMENT='change me for your Pinecone environment'
 PINECONE_INDEX_NAME='change me for your Pinecone index name'

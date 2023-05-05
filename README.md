@@ -99,7 +99,7 @@ yarn build-netlify
 - E.g., below are the environment variables required for using Pinecone vectorstore.
 ```
 NEXT_PUBLIC_DOCS_CHAT_API_URL='/chat'
-VECTOR_STORE=pinecone
+VECTOR_STORE='pinecone'
 PINECONE_API_KEY=
 PINECONE_ENVIRONMENT=
 PINECONE_INDEX_NAME=
