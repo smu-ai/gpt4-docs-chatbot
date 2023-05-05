@@ -2,7 +2,7 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { pinecone } from '@/utils/pinecone-client';
-import { CustomPDFLoader, CustomHTMLLoader } from '@/utils/customPDFLoader';
+import { CustomPDFLoader, CustomHTMLLoader } from '@/utils/customLoaders';
 import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
 import { VECTOR_STORE, HNSWLIB_DB_DIR, SOURCE_FILES_DIR, CHROMA_SERVER_URL, CHROMA_COLLECTION_NAME, MILVUS_SERVER_URL, MILVUS_COLLECTION_NAME, MILVUS_DB_USERNAME, MILVUS_DB_PASSWORD } from '@/config/data';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';

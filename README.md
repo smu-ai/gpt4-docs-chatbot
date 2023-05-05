@@ -1,14 +1,24 @@
-GPT-4 & LangChain - Create a ChatGPT Chatbot for Your HTML & PDF Files
+# GPT-4 & LangChain - Create a ChatGPT Chatbot for Your HTML & PDF Files
 
-Use the new GPT-4 api to build a chatGPT chatbot for multiple Large HTML & PDF files.
+This project uses the OpenAI's GPT-4 APIs to build a chatbot for multiple HTML & PDF files.
 
-Tech stack used includes LangChain, Pinecone, Typescript, Openai, and Next.js. LangChain is a framework that makes it easier to build scalable AI/LLM apps and chatbots. Pinecone is a vectorstore for storing embeddings and your PDF in text to later retrieve similar docs.
+[![Chat with Mastercard Priceless](./public/demo.gif)](https://gpt4-docs-chatbot.netlify.app/)
 
-**If you run into errors, please review the troubleshooting section further down this page.**
+## How it works
 
-Prelude: Please make sure you have already downloaded node on your system and the version is 18 or greater.
+Tech stack used includes LangChain, Typescript, OpenAI, Next.js, HNSWLib, Chroma, Milvus and Pinecone. LangChain is a framework that makes it easier to build scalable AI/LLM apps and chatbots. HNSWLib, Chroma, Milvus and Pinecone are vectorstores for storing embeddings for your files. Here are some basic facts on these vectorstores.
 
-## Development
+| | HNSWLib | Chroma | Milvus | Pinecone |
+| -------- | -------- | -------- | -------- | -------- |
+| GitHub repos | [HNSWLib](https://github.com/nmslib/hnswlib) | [Chroma](https://github.com/chroma-core/chroma) | [Milvus](https://github.com/milvus-io/milvus) | [Pinecone](https://github.com/pinecone-io) |
+| Open Source? | Yes | Yes| Yes | No |
+| Open Source License | Apache-2.0 | Apache-2.0| Apache-2.0 | N/A |
+| Managed Service Available? | No | No<br>[Coming Q3 2023](https://www.trychroma.com/)| [Yes](https://zilliz.com/cloud) | [Yes](https://www.pinecone.io/) |
+| Managed Service Free-tier? | N/A | N/A| No<br>Get $100 credits with 30-day trial upon registration  | Yes<br>All users will have access to a single free project and index within a free tier environment.|
+
+## Running Locally
+
+Run `node -v` to make sure you're running Node version 18 or above. 
 
 1. Clone the repo or download the ZIP
 
@@ -19,75 +29,85 @@ git clone [github https url]
 
 2. Install packages
 
-First run `npm install yarn -g` to install yarn globally (if you haven't already).
+If not done already, run `npm install -g yarn` to install yarn globally.
 
 Then run:
 
 ```
 yarn install
 ```
-After installation, you should now see a `node_modules` folder.
 
 3. Set up your `.env` file
 
-- Copy `.env.example` into `.env`
-  Your `.env` file should look like this:
+- Copy `.env.example` into `.env`. Your `.env` file should look like this:
 
 ```
 OPENAI_API_KEY=
 
+NEXT_PUBLIC_DOCS_CHAT_API_URL=
+
+VECTOR_STORE=hnswlib
+# VECTOR_STORE=chroma
+# VECTOR_STORE=milvus
+# VECTOR_STORE=pinecone
+
+SOURCE_FILES_DIR=data/docs
+HNSWLIB_DB_DIR=data/hnswlib
+
+CHROMA_COLLECTION_NAME=
+CHROMA_SERVER_URL=
+
+MILVUS_SERVER_URL=
+MILVUS_DB_USERNAME=
+MILVUS_DB_PASSWORD=
+
 PINECONE_API_KEY=
 PINECONE_ENVIRONMENT=
-
 PINECONE_INDEX_NAME=
-
+PINECONE_NAME_SPACE=
 ```
 
 - Visit [openai](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key) to retrieve API keys and insert into your `.env` file.
-- Visit [pinecone](https://pinecone.io/) to create and retrieve your API keys, and also retrieve your environment and index name from the dashboard.
+- If you don't have access to `gpt-4` api, In `utils/makechain.ts` change `modelName` in `new OpenAI` to `gpt-3.5-turbo`
+- The sample HTML files and the corresponding embeddings are stored in folders `data/docs` and `data/hnswlib` respectively, which allows you to run locally using HNSWLib vectorstore without any additional work. 
+- You can also put your own files to any folder specified in `SOURCE_FILES_DIR` and run the command below to generate embeddings which will be stored in folder `HNSWLIB_DB_DIR`. Please note this will call OpenAI Embeddings API, which might cost a lot if your data size is big. As a reference, to load the 171 HTML files stored in folder `data/docs`, with a total size of around 180M, I spent around $22 USD.
+```
+yarn load
+```
+- If you want to use another vectorstore, i.e., Chroma, Milvus or Pinecone, you will need to uncomment the correct `VECTOR_STORE` line, set up the corresponding env variables and then load the embeddings from folder `HNSWLIB_DB_DIR` to the vectorstore by running `yarn load` command. This will not incur any cost as no OpenAI API will be called.
 
-4. In the `config` folder, replace the `PINECONE_NAME_SPACE` with a `namespace` where you'd like to store your embeddings on Pinecone when you run `npm run ingest`. This namespace will later be used for queries and retrieval.
 
-5. In `utils/makechain.ts` chain change the `QA_PROMPT` for your own usecase. Change `modelName` in `new OpenAI` to `gpt-4`, if you have access to `gpt-4` api. Please verify outside this repo that you have access to `gpt-4` api, otherwise the application will not work.
+4. Start the local server at `http://localhost:3000`:
 
-## Convert your PDF files to embeddings
+```
+yarn dev
+```
 
-**This repo can load multiple PDF files**
+## One-Click Deploy
 
-1. Inside `docs` folder, add your pdf files or folders that contain pdf files.
+Deploy the project using  [Netlify](https://docs.netlify.com/site-deploys/create-deploys/#deploy-to-netlify-button):
 
-2. Run the script `npm run ingest` to 'ingest' and embed your docs. If you run into errors troubleshoot below.
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/inflaton/gpt4-docs-chatbot)
 
-3. Check Pinecone dashboard to verify your namespace and vectors have been added.
 
-## Run the app
+- Please use the following build command:
+```
+yarn build-netlify
+```
 
-Once you've verified that the embeddings and content have been successfully added to your Pinecone, you can run the app `npm run dev` to launch the local dev environment, and then type a question in the chat interface.
+- As the backend API will be deployed as an edge function at path `/chat`, please set up the environment variable `NEXT_PUBLIC_DOCS_CHAT_API_URL` to `/caht`, along with `OPENAI_API_KEY` and vectorstore related ones. 
+- E.g., below are the environment variables required for using Pinecone vectorstore.
+```
+NEXT_PUBLIC_DOCS_CHAT_API_URL=/chat
+VECTOR_STORE=pinecone
+PINECONE_API_KEY=
+PINECONE_ENVIRONMENT=
+PINECONE_INDEX_NAME=
+PINECONE_NAME_SPACE=
+```
 
-## Troubleshooting
+- Please note HNSWLib vectorstore can't be used as it is not possible to read or write files from the file system in Edge Functions. 
 
-In general, keep an eye out in the `issues` and `discussions` section of this repo for solutions.
+## Blog Post
 
-**General errors**
-
-- Make sure you're running the latest Node version. Run `node -v`
-- Try a different PDF or convert your PDF to text first. It's possible your PDF is corrupted, scanned, or requires OCR to convert to text.
-- `Console.log` the `env` variables and make sure they are exposed.
-- Make sure you're using the same versions of LangChain and Pinecone as this repo.
-- Check that you've created an `.env` file that contains your valid (and working) API keys, environment and index name.
-- If you change `modelName` in `OpenAI`, make sure you have access to the api for the appropriate model.
-- Make sure you have enough OpenAI credits and a valid card on your billings account.
-- Check that you don't have multiple OPENAPI keys in your global environment. If you do, the local `env` file from the project will be overwritten by systems `env` variable.
-- Try to hard code your API keys into the `process.env` variables if there are still issues.
-
-**Pinecone errors**
-
-- Make sure your pinecone dashboard `environment` and `index` matches the one in the `pinecone.ts` and `.env` files.
-- Check that you've set the vector dimensions to `1536`.
-- Make sure your pinecone namespace is in lowercase.
-- Pinecone indexes of users on the Starter(free) plan are deleted after 7 days of inactivity. To prevent this, send an API request to Pinecone to reset the counter before 7 days.
-- Retry from scratch with a new Pinecone project, index, and cloned repo.
-
-## Credit
-
-Frontend of this repo is inspired by [langchain-chat-nextjs](https://github.com/zahidkhawaja/langchain-chat-nextjs)
+If you'd like to know more about this project, check out the [blog post](https://mirror.xyz/0x90f2036E332dfAD451ba9E9C82366F4ba79173d8/Kacd_FPecsMWTA5cvVXvNNzaiaYrtssHa-2sxxSIcIw).
