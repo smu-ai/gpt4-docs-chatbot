@@ -72,7 +72,7 @@ PINECONE_NAME_SPACE=
 
 - Visit [openai](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key) to retrieve API keys and insert into your `.env` file.
 - If you don't have access to `gpt-4` api, In `utils/makechain.ts` change `modelName` in `new OpenAI` to `gpt-3.5-turbo`
-- The sample HTML files and the corresponding embeddings are stored in folders `data/docs` and `data/hnswlib` respectively, which allows you to run locally using HNSWLib vectorstore without any additional work. 
+- The sample HTML files and the corresponding embeddings are stored in folder `data/docs` and file `data/hnswlib.zip` respectively, which allows you to run locally using HNSWLib vectorstore after unzipping `hnswlib.zip` into subfolder `data/hnswlib`.
 - You can also put your own files to any folder specified in `SOURCE_FILES_DIR` and run the command below to generate embeddings which will be stored in folder `HNSWLIB_DB_DIR`. Please note this will call OpenAI Embeddings API, which might cost a lot if your data size is big. As a reference, to load the 171 HTML files stored in folder `data/docs`, with a total size of around 180M, I spent around $22 USD.
 ```
 yarn load
@@ -80,7 +80,7 @@ yarn load
 - If you want to use another vectorstore, i.e., Chroma, Milvus or Pinecone, you will need to uncomment the correct `VECTOR_STORE` line, set up the corresponding env variables and then load the embeddings from folder `HNSWLIB_DB_DIR` to the vectorstore by running `yarn load` command. This will not incur any cost as no OpenAI API will be called.
 
 
-5. Start the local server at `http://localhost:3000`:
+1. Start the local server at `http://localhost:3000`:
 
 ```
 yarn dev
