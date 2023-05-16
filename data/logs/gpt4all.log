@@ -1,0 +1,91 @@
+gptj_model_load: loading model from '../../models/ggml-gpt4all-j.bin' - please wait ...
+gptj_model_load: n_vocab = 50400
+gptj_model_load: n_ctx   = 2048
+gptj_model_load: n_embd  = 4096
+gptj_model_load: n_head  = 16
+gptj_model_load: n_layer = 28
+gptj_model_load: n_rot   = 64
+gptj_model_load: f16     = 2
+gptj_model_load: ggml ctx size = 4505.45 MB
+gptj_model_load: memory_size =   896.00 MB, n_mem = 57344
+gptj_model_load: ...................................
+DONE
+
+load INSTRUCTOR_Transformer
+max_seq_length  512
+DONE
+
+The index persist directory is present. Loading index ...
+DONE
+
+Welcome to the Priceless Chatbot! Type 'exit' to stop.
+Please enter your question: 
+Question: What's Mastercard Priceless?
+ Mastercard Priceless is a card that offers access to exclusive discounts, experiences, and travel rewards. It's exclusively available to Mastercard cardholders, and it's available exclusively through Priceless. It provides a more meaningful way to shop, with access to discounts and experiences. Mastercard Priceless is a card that offers access to exclusive discounts, experiences, and travel rewards.
+It's exclusively available to Mastercard cardholders, and it's available exclusively through Priceless. It
+provides a more meaningful way to shop, with access to discounts and experiences.
+
+Sources:
+  URL: https://www.priceless.com/m/about
+  URL: https://www.priceless.com/m/arts-and-culture/product/180470/rwc-marsa-pattes/508/78
+  URL: https://www.priceless.com/m/culinary/product/180330/lady-m-champagne-bar/503/78
+Completed in 62.840s
+Please enter your question: 
+Question: Dining in New York
+ What is it about? Sorry, but you seem to be referring to an image with "One World Explorer" written in the text, and then followed by the location and dining option "ONE Din". If this is not related to the given context, I don't see a point to answer. However, based on my interpretation of your text, I suggest providing some relevant details such as a name for your event or something to promote that makes the experience stand out or that justifies it as something of note for your target market. For instance:
+
+Name of Event: New York's Food and Drinks: An All-Star Gathering!
+Promotional Activity: 
+ 
+In honor of National Coffee Day, diners are invited to taste our house blend at a secret location, in partnership with Joe Espensay and our coffee company partners! All food and beverage samples from around the country, live music and happy hours on draft and beer specials are featured in addition to some great specials to enhance your coffee or snack selection! This exclusive, can't miss opportunity for attendees, makes a fantastic opportunity for event coordinators! What is it about? Sorry, but you seem to be referring to an image with "One World Explorer" written in the
+text, and then followed by the location and dining option "ONE Din". If this is not related to the given
+context, I don't see a point to answer. However, based on my interpretation of your text, I suggest providing
+some relevant details such as a name for your event or something to promote that makes the experience stand
+out or that justifies it as something of note for your target market. For instance:
+
+Name of Event: New York's Food and Drinks: An All-Star Gathering!
+Promotional Activity:
+
+In honor of National Coffee Day, diners are invited to taste our house blend at a secret location, in
+partnership with Joe Espensay and our coffee company partners! All food and beverage samples from around the
+country, live music and happy hours on draft and beer specials are featured in addition to some great specials
+to enhance your coffee or snack selection! This exclusive, can't miss opportunity for attendees, makes a
+fantastic opportunity for event coordinators!
+
+Sources:
+  URL: https://www.priceless.com/m/travel/product/164712/owo-mastercard-fridays/509/78
+  URL: https://www.priceless.com/m/travel/product/164712/owo-mastercard-fridays/583/78
+  URL: https://www.priceless.com/travel/product/164712/owo-mastercard-fridays?country=us
+  URL: https://www.priceless.com/travel/product/164712/owo-mastercard-fridays/509/78
+Completed in 110.376s
+Please enter your question: 
+Question: What are the dining experiences and offers available in New York through the Mastercard Priceless program?
+ The Mastercard Priceless program offers exclusive discounts and access to experiences in New York City. The program is exclusively available to Mastercard cardholders and provides access to unforgettable experiences and valuable everyday discounts in the cities where you live and travel. Mastercard and Priceless are registered trademarks, and the circles design is a trademark of Mastercard International Incorporated. ©2023 Mastercard.
+
+With a One World Explorer, diners can enjoy a premium dinner at The Russian Tea Room, savor the exquisite cuisine and wine at Carnegie Hall, and top off the night with an unforgettable performance. The program is exclusively available to Mastercard cardholders and provides access to unforgettable experiences and valuable everyday discounts in the cities where you live and travel. Mastercard and Priceless are registered trademarks, and the circles design is a trademark of Mastercard International Incorporated. ©2023 Mastercard. The Mastercard Priceless program offers exclusive discounts and access to experiences in New York City. The
+program is exclusively available to Mastercard cardholders and provides access to unforgettable experiences
+and valuable everyday discounts in the cities where you live and travel. Mastercard and Priceless are
+registered trademarks, and the circles design is a trademark of Mastercard International Incorporated. ©2023
+Mastercard.
+
+With a One World Explorer, diners can enjoy a premium dinner at The Russian Tea Room, savor the exquisite
+cuisine and wine at Carnegie Hall, and top off the night with an unforgettable performance. The program is
+exclusively available to Mastercard cardholders and provides access to unforgettable experiences and valuable
+everyday discounts in the cities where you live and travel. Mastercard and Priceless are registered
+trademarks, and the circles design is a trademark of Mastercard International Incorporated. ©2023 Mastercard.
+
+Sources:
+  URL: https://www.priceless.com/m/arts-and-culture/product/177475/2022-carnegie-hall-date-nights/511/78
+  URL: https://www.priceless.com/m/travel/product/164712/owo-mastercard-fridays/583/78
+  URL: https://www.priceless.com/travel/product/164712/owo-mastercard-fridays?country=us
+  URL: https://www.priceless.com/travel/product/164712/owo-mastercard-fridays/509/78
+Completed in 76.380s
+Please enter your question: 
+
+------------------------------------
+App crashing message:
+
+Please enter your question: What is the Russian Tea Room experience in the Mastercard Priceless program?
+/Users/inflaton/miniconda3/lib/python3.10/multiprocessing/resource_tracker.py:224: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+✨  Done in 380.99s.

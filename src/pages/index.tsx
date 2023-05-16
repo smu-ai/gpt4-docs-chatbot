@@ -5,6 +5,7 @@ import { Message } from '@/types/chat';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
+import useWebSocket from 'react-use-websocket';
 import LoadingDots from '@/components/ui/LoadingDots';
 import { Document } from 'langchain/document';
 import {
@@ -14,9 +15,13 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 
+const chatApiUrl = process.env.NEXT_PUBLIC_DOCS_CHAT_API_URL || '';
+const toUseWebSocket = chatApiUrl.startsWith('ws');
+
 export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [ready, setIsReady] = useState<boolean>(false);
   const [sourceDocs] = useState<Document[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
@@ -40,31 +45,77 @@ export default function Home() {
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  const webSocket = useRef<WebSocket | null>(null);
+
   useEffect(() => {
     if (!loading) {
       textAreaRef.current?.focus();
     }
   }, [loading]);
 
-  async function handleData(question: any, data: any, ctrl: AbortController) {
+  async function handleData(data: any) {
     try {
       console.log(data);
       const parsedData = JSON.parse(data);
-      if (parsedData.sourceDocs) {
-        setMessageState((state) => ({
-          ...state,
-          pendingSourceDocs: parsedData.sourceDocs,
-        }));
-      } else if (parsedData.token) {
+      if (parsedData.token) {
         setMessageState((state) => ({
           ...state,
           pending: (state.pending ?? '') + parsedData.token,
         }));
+      } else {
+        if (parsedData.sourceDocs) {
+          setMessageState((state) => ({
+            ...state,
+            pendingSourceDocs: parsedData.sourceDocs,
+          }));
+        } else {
+          setMessageState((state) => ({
+            ...state,
+            pending: (state.pending ?? '') + parsedData.error,
+          }));
+        }
+
+        const question = query.trim();
+        setMessageState((state) => ({
+          history: [...state.history, [question, state.pending ?? '']],
+          messages: [
+            ...state.messages,
+            {
+              type: 'apiMessage',
+              message: state.pending ?? '',
+              sourceDocs: state.pendingSourceDocs,
+            },
+          ],
+          pending: undefined,
+          pendingSourceDocs: undefined,
+        }));
+        setLoading(false);
       }
+
     } catch (error) {
       console.log('handleData error:', error);
     }
   }
+
+  useEffect(() => {
+    if (toUseWebSocket && !webSocket.current) {
+      const socket = new WebSocket(chatApiUrl);
+
+      socket.onopen = () => {
+        console.log('socket.onopen'); setIsReady(true);
+      }
+      socket.onclose = () => {
+        console.log('socket.onclose'); setIsReady(false);
+      }
+      socket.onmessage = (event) => handleData(event.data);
+
+      webSocket.current = socket;
+
+      return () => {
+        // socket.close();
+      };
+    }
+  });
 
   //handle form submission
   async function handleSubmit(e: any) {
@@ -98,42 +149,35 @@ export default function Home() {
     const ctrl = new AbortController();
 
     try {
-      await fetchEventSource(process.env.NEXT_PUBLIC_DOCS_CHAT_API_URL || '/api/chat',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            question,
-            history,
-          }),
-          signal: ctrl.signal,
-          onmessage(event) {
-            handleData(question, event.data, ctrl);
-          },
-          onclose() {
-            console.log("Connection closed by the server");
-            setMessageState((state) => ({
-              history: [...state.history, [question, state.pending ?? '']],
-              messages: [
-                ...state.messages,
-                {
-                  type: 'apiMessage',
-                  message: state.pending ?? '',
-                  sourceDocs: state.pendingSourceDocs,
-                },
-              ],
-              pending: undefined,
-              pendingSourceDocs: undefined,
-            }));
-            setLoading(false);
-            ctrl.abort();
-          },
-          onerror(err) {
-            console.log("There was an error from server", err);
-          },
-        });
+      if (toUseWebSocket) {
+        if (webSocket.current && ready) {
+          const msg = { question };
+          webSocket.current.send(JSON.stringify(msg));
+        }
+      } else {
+        await fetchEventSource(chatApiUrl || '/api/chat',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              question,
+              history,
+            }),
+            signal: ctrl.signal,
+            onmessage(event) {
+              handleData(event.data);
+            },
+            onclose() {
+              console.log("Connection closed by the server");
+              ctrl.abort();
+            },
+            onerror(err) {
+              console.log("There was an error from server", err);
+            },
+          });
+      }
     } catch (error) {
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
@@ -252,7 +296,7 @@ export default function Home() {
                                   </AccordionTrigger>
                                   <AccordionContent>
                                     <ReactMarkdown linkTarget="_blank">
-                                      {doc.pageContent}
+                                      {doc.pageContent || doc.page_content}
                                     </ReactMarkdown>
                                     <p className="mt-2">
                                       <b>{process.env.NEXT_PUBLIC_URL || 'URL'}:</b> <a target="_blank" href={doc.metadata.url}>{doc.metadata.url}</a>
@@ -278,7 +322,7 @@ export default function Home() {
                             </AccordionTrigger>
                             <AccordionContent>
                               <ReactMarkdown linkTarget="_blank">
-                                {doc.pageContent}
+                                {doc.pageContent || doc.page_content}
                               </ReactMarkdown>
                             </AccordionContent>
                           </AccordionItem>
