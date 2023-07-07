@@ -386,7 +386,7 @@ export default function Home() {
                                         {doc.pageContent}
                                       </ReactMarkdown>
                                     </p>
-                                    {index < message.sourceDocs?.length - 1 && <hr />}
+                                    {index < (message.sourceDocs?.length || 0) - 1 && <hr />}
                                   </div>
                                 ))}
                               </AccordionContent>
