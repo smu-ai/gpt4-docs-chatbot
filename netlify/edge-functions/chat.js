@@ -84,9 +84,20 @@ const serve = async (req) => {
       },
     });
 
+    const getChatHistoryString = (chatHistory) => {
+      if (Array.isArray(chatHistory)) {
+        return chatHistory
+          .map((chatMessage) => {
+            return `Human: ${chatMessage[0]}\nAssistant: ${chatMessage[1]}`;
+          })
+          .join("\n");
+      }
+      return chatHistory;
+    }
+
     chain.call({
       question: sanitizedQuestion,
-      chat_history: history || [],
+      chat_history: getChatHistoryString(history || []),
     }, callbackManagerForChain).catch((e) => console.error(e));
 
     return new Response(stream.readable, {

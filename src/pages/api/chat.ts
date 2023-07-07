@@ -61,6 +61,17 @@ export default async function handler(
     get: (key: any) => process.env[key]
   });
 
+  const getChatHistoryString = (chatHistory: any) => {
+    if (Array.isArray(chatHistory)) {
+      return chatHistory
+        .map((chatMessage) => {
+          return `Human: ${chatMessage[0]}\nAssistant: ${chatMessage[1]}`;
+        })
+        .join("\n");
+    }
+    return chatHistory;
+  }
+
   //create chain
   const chain = makeChain(vectorStore, callbackManagerForLLM);
 
@@ -70,7 +81,7 @@ export default async function handler(
     //Ask a question
     const response = await chain.call({
       question: sanitizedQuestion,
-      chat_history: history || [],
+      chat_history: getChatHistoryString(history || []),
     });
 
     const answer = response.text;
