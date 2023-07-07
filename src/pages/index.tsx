@@ -5,7 +5,6 @@ import { Message } from '@/types/chat';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
-import useWebSocket from 'react-use-websocket';
 import LoadingDots from '@/components/ui/LoadingDots';
 import { Document } from 'langchain/document';
 import {
@@ -14,6 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { finished } from 'stream';
 
 const chatApiUrl = process.env.NEXT_PUBLIC_DOCS_CHAT_API_URL || '';
 const toUseWebSocket = chatApiUrl.startsWith('ws');
@@ -22,17 +22,19 @@ export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [ready, setIsReady] = useState<boolean>(false);
-  const [sourceDocs] = useState<Document[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
     messages: Message[];
     pending?: string;
+    lastQuestion?: string;
     history: [string, string][];
     pendingSourceDocs?: Document[];
   }>({
     messages: [
       {
-        message: process.env.NEXT_PUBLIC_HELLO || 'Hi, what would you like to experience?',
+        message:
+          process.env.NEXT_PUBLIC_HELLO ||
+          'Hi, what would you like to experience?',
         type: 'apiMessage',
       },
     ],
@@ -53,72 +55,144 @@ export default function Home() {
     }
   }, [loading]);
 
-  async function handleData(data: any) {
-    try {
-      console.log(data);
-      const parsedData = JSON.parse(data);
-      if (parsedData.token) {
-        setMessageState((state) => ({
-          ...state,
-          pending: (state.pending ?? '') + parsedData.token,
-        }));
-      } else {
-        if (parsedData.sourceDocs) {
-          setMessageState((state) => ({
-            ...state,
-            pendingSourceDocs: parsedData.sourceDocs,
-          }));
-        } else {
-          setMessageState((state) => ({
-            ...state,
-            pending: (state.pending ?? '') + parsedData.error,
-          }));
-        }
+  const removeExtraSpaces = (text: string) => {
+    const reg = / +/g
+    return text.replace(reg, " ")
+  }
 
-        const question = query.trim();
-        setMessageState((state) => ({
-          history: [...state.history, [question, state.pending ?? '']],
-          messages: [
-            ...state.messages,
-            {
-              type: 'apiMessage',
-              message: state.pending ?? '',
-              sourceDocs: state.pendingSourceDocs,
-            },
-          ],
-          pending: undefined,
-          pendingSourceDocs: undefined,
-        }));
-        setLoading(false);
+  const handleParsedDataWithToken = (parsedData: any) => {
+    // console.log(tokens)
+    if (parsedData.token && parsedData.token.length) {
+      setMessageState((state) => {
+        const token = parsedData.token
+
+        return {
+          ...state,
+          pending: removeExtraSpaces((state.pending ?? '') + token)
+        }
+      })
+    } else {
+      handleParsedDataAfterToken(parsedData)
+    }
+  }
+
+  const handleParsedDataAfterToken = (parsedData: any) => {
+    let finished = false;
+    if (parsedData.sourceDocs) {
+      finished = true;
+      setMessageState((state) => ({
+        ...state,
+        pendingSourceDocs: parsedData.sourceDocs,
+      }));
+    } else if (parsedData.error) {
+      finished = true;
+      setMessageState((state) => ({
+        ...state,
+        pending: (state.pending ?? '') + parsedData.error,
+      }));
+    }
+
+    if (finished) {
+      setMessageState((state) => ({
+        history: [
+          ...state.history,
+          [state.lastQuestion!, state.pending ?? ''],
+        ],
+        messages: [
+          ...state.messages,
+          {
+            type: 'apiMessage',
+            message: state.pending ?? '',
+            sourceDocs: state.pendingSourceDocs,
+          },
+        ],
+        pending: undefined,
+        pendingSourceDocs: undefined,
+        lastQuestion: undefined,
+      }));
+      setLoading(false);
+    }
+  }
+
+  async function handleData(data: any) {
+    console.log('handleData:', data);
+    try {
+      let parsedData = JSON.parse(data);
+      const result = parsedData.result;
+      if (result !== undefined) {
+        if (result.length == 0 || (result.length > 20 && result[0] !== '{')) {
+          return;
+        }
+        parsedData.token = result;
+
+        try {
+          if (result.length > 2 && result[0] == '{') {
+            parsedData = JSON.parse(result);
+          }
+        } catch (error) {
+          // ignore
+        }
       }
+
+      if (parsedData.token) {
+        handleParsedDataWithToken(parsedData)
+      } else {
+        handleParsedDataAfterToken(parsedData)
+      }
+
 
     } catch (error) {
       console.log('handleData error:', error);
     }
   }
 
+  function connectWebSocket() {
+    if (webSocket.current) {
+      return;
+    }
+    const ws = new WebSocket(chatApiUrl);
+    webSocket.current = ws;
+
+    ws.onopen = function () {
+      console.log('socket.onopen');
+      setIsReady(true);
+    };
+
+    ws.onmessage = function (e) {
+      handleData(e.data);
+    };
+
+    ws.onclose = function (e) {
+      webSocket.current = null;
+      setIsReady(false);
+
+      console.log(
+        'Socket is closed. Reconnect will be attempted in 1 second.',
+        e.reason,
+      );
+      setTimeout(function () {
+        connectWebSocket();
+      }, 1000);
+    };
+
+    ws.onerror = function (err) {
+      console.error('Socket encountered error: ', err);
+      ws.close();
+    };
+  }
+
   useEffect(() => {
     if (toUseWebSocket && !webSocket.current) {
-      const socket = new WebSocket(chatApiUrl);
-
-      socket.onopen = () => {
-        console.log('socket.onopen'); setIsReady(true);
-      }
-      socket.onclose = () => {
-        console.log('socket.onclose'); setIsReady(false);
-      }
-      socket.onmessage = (event) => handleData(event.data);
-
-      webSocket.current = socket;
-
-      return () => {
-        // socket.close();
-      };
+      connectWebSocket();
     }
   });
 
   //handle form submission
   async function handleSubmit(e: any) {
+    if (loading) {
+      console.log("handleSubmit: loading is ture - quitting ... ");
+      return;
+    }
     e.preventDefault();
 
     setError(null);
@@ -140,6 +214,7 @@ export default function Home() {
         },
       ],
       pending: undefined,
+      lastQuestion: question,
     }));
 
     setLoading(true);
@@ -151,32 +226,32 @@ export default function Home() {
     try {
       if (toUseWebSocket) {
         if (webSocket.current && ready) {
-          const msg = { question };
+          const msg = { question, history };
           webSocket.current.send(JSON.stringify(msg));
         }
       } else {
-        await fetchEventSource(chatApiUrl || '/api/chat',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              question,
-              history,
-            }),
-            signal: ctrl.signal,
-            onmessage(event) {
-              handleData(event.data);
-            },
-            onclose() {
-              console.log("Connection closed by the server");
-              ctrl.abort();
-            },
-            onerror(err) {
-              console.log("There was an error from server", err);
-            },
-          });
+        await fetchEventSource(chatApiUrl || '/api/chat', {
+          method: 'POST',
+          openWhenHidden: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            question,
+            history,
+          }),
+          signal: ctrl.signal,
+          onmessage(event) {
+            handleData(event.data);
+          },
+          onclose() {
+            console.log('Connection closed by the server');
+            ctrl.abort();
+          },
+          onerror(err) {
+            console.log('There was an error from server', err);
+          },
+        });
       }
     } catch (error) {
       setLoading(false);
@@ -185,10 +260,7 @@ export default function Home() {
     }
   }
 
-  const onSubmit = useCallback(
-    handleSubmit,
-    [query],
-  );
+  const onSubmit = useCallback(handleSubmit, [query]);
 
   //prevent empty submissions
   const handleEnter = useCallback(
@@ -278,7 +350,7 @@ export default function Home() {
                           </ReactMarkdown>
                         </div>
                       </div>
-                      {message.sourceDocs && (
+                      {message.sourceDocs && message.sourceDocs.length > 0 && (
                         <div
                           className="p-5"
                           key={`sourceDocsAccordion-${index}`}
@@ -288,49 +360,43 @@ export default function Home() {
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.map((doc, index) => (
-                              <div key={`messageSourceDocs-${index}`}>
-                                <AccordionItem value={`item-${index}`}>
-                                  <AccordionTrigger>
-                                    <h3>{process.env.NEXT_PUBLIC_SOURCE || 'Source'} {index + 1}</h3>
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    <ReactMarkdown linkTarget="_blank">
-                                      {doc.pageContent || doc.page_content}
-                                    </ReactMarkdown>
+                            <AccordionItem value='sourceDocsAccordionItem-${index}'>
+                              <AccordionTrigger>
+                                <h3>
+                                  {process.env.NEXT_PUBLIC_SOURCES ||
+                                    'Sources'}
+                                </h3>
+                              </AccordionTrigger>
+                              <AccordionContent>
+                                {message.sourceDocs.map((doc, index) => (
+                                  <div key={`messageSourceDocs-${index}`}>
                                     <p className="mt-2">
-                                      <b>{process.env.NEXT_PUBLIC_URL || 'URL'}:</b> <a target="_blank" href={doc.metadata.url}>{doc.metadata.url}</a>
+                                      <b>
+                                        {`${process.env.NEXT_PUBLIC_SOURCE || 'Source'} ${index + 1}: `}
+                                      </b>
+                                      <a
+                                        target="_blank"
+                                        href={doc.metadata.url}
+                                      >
+                                        {doc.metadata.url}
+                                      </a>
                                     </p>
-                                  </AccordionContent>
-                                </AccordionItem>
-                              </div>
-                            ))}
+                                    <p className="mt-2">
+                                      <ReactMarkdown linkTarget="_blank">
+                                        {doc.pageContent || doc.page_content}
+                                      </ReactMarkdown>
+                                    </p>
+                                    {index < message.sourceDocs?.length - 1 && <hr />}
+                                  </div>
+                                ))}
+                              </AccordionContent>
+                            </AccordionItem>
                           </Accordion>
                         </div>
                       )}
                     </>
                   );
                 })}
-                {sourceDocs.length > 0 && (
-                  <div className="p-5">
-                    <Accordion type="single" collapsible className="flex-col">
-                      {sourceDocs.map((doc, index) => (
-                        <div key={`SourceDocs-${index}`}>
-                          <AccordionItem value={`item-${index}`}>
-                            <AccordionTrigger>
-                              <h3>{process.env.NEXT_PUBLIC_SOURCE || 'Source'} {index + 1}</h3>
-                            </AccordionTrigger>
-                            <AccordionContent>
-                              <ReactMarkdown linkTarget="_blank">
-                                {doc.pageContent || doc.page_content}
-                              </ReactMarkdown>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </div>
-                      ))}
-                    </Accordion>
-                  </div>
-                )}
               </div>
             </div>
             <div className={styles.center}>
@@ -347,8 +413,10 @@ export default function Home() {
                     name="userInput"
                     placeholder={
                       loading
-                        ? process.env.NEXT_PUBLIC_WAITING || 'Waiting for response...'
-                        : process.env.NEXT_PUBLIC_QUESTION || 'What is your question?'
+                        ? process.env.NEXT_PUBLIC_WAITING ||
+                        'Waiting for response...'
+                        : process.env.NEXT_PUBLIC_QUESTION ||
+                        'What is your question?'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -384,8 +452,13 @@ export default function Home() {
             )}
           </main>
         </div>
-        <footer className="m-auto p-4">
-          <a href={process.env.NEXT_PUBLIC_FOOTER_LINK || "https://js.langchain.com"} target='_blank'>
+        <footer className="m-auto p-4 text-center">
+          <a
+            href={
+              process.env.NEXT_PUBLIC_FOOTER_LINK || 'https://js.langchain.com'
+            }
+            target="_blank"
+          >
             {process.env.NEXT_PUBLIC_FOOTER1 || 'Powered by LangChain.js.'}
             <br />
             {process.env.NEXT_PUBLIC_FOOTER2 || ''}
