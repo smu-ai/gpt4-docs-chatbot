@@ -383,7 +383,7 @@ export default function Home() {
                                     </p>
                                     <p className="mt-2">
                                       <ReactMarkdown linkTarget="_blank">
-                                        {doc.pageContent || doc.page_content}
+                                        {doc.pageContent}
                                       </ReactMarkdown>
                                     </p>
                                     {index < message.sourceDocs?.length - 1 && <hr />}
