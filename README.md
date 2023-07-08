@@ -106,7 +106,8 @@ PINECONE_NAME_SPACE=
 ```
 
 - Please note HNSWLib vectorstore can't be used as it is not possible to read or write files from the file system in Netlify Edge Functions.
-- If you can read Chinese, you can take a look at [和佛陀聊天](https://external.ink/?to=ask-buddha.netlify.app) which is deployed using this method.
+- [Chat with Mastercard Priceless](https://external.ink/?to=ask-priceless.netlify.app) is deployed using this method.
+- If you can read Chinese, you can take a look at [和佛陀聊天](https://external.ink/?to=ask-buddha.netlify.app) which is also deployed using this method.
 
 ## Blog Post
 
