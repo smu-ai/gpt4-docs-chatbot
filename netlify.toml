@@ -1,5 +1,5 @@
 [build]
-command = "yarn build-netlify"
+command = "yarn build"
 
 [build.environment]
 NEXT_USE_NETLIFY_EDGE = "true"
