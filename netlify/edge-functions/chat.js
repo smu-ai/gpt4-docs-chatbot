@@ -65,12 +65,10 @@ const serve = async (req) => {
 
     const embeddings = new OpenAIEmbeddings();
     const vectorStore = await initVectorStore(embeddings, Deno.env);
-    const chain = makeChain(vectorStore, callbackManagerForLLM);
+    const chain = makeChain(vectorStore, callbackManagerForLLM, Deno.env);
 
     const callbackManagerForChain = CallbackManager.fromHandlers({
       handleChainEnd: async (outputs) => {
-        // console.log('handleChainEnd:', outputs);
-
         if (outputs.sourceDocuments) {
           const answer = outputs.text;
           console.log('Answer:', answer);
@@ -80,6 +78,8 @@ const serve = async (req) => {
           await writer.ready;
           sendData(JSON.stringify({ sourceDocs: outputs.sourceDocuments }));
           await writer.close();
+        } else {
+          console.log('handleChainEnd:', outputs.text);
         }
       },
     });
