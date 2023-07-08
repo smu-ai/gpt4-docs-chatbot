@@ -2,7 +2,7 @@
 
 This project uses the OpenAI's GPT-4 APIs to build a chatbot for multiple HTML & PDF files.
 
-[![Chat with Mastercard Priceless](./public/demo.gif)](https://priceless-chatbot.netlify.app/)
+[![Chat with Mastercard Priceless](./public/demo.gif)](https://external.ink/?to=priceless-chatbot.netlify.app)
 
 ## How it works
 
@@ -106,6 +106,7 @@ PINECONE_NAME_SPACE=
 ```
 
 - Please note HNSWLib vectorstore can't be used as it is not possible to read or write files from the file system in Netlify Edge Functions.
+- If you can read Chinese, you can take a look at [和佛陀聊天](https://external.ink/?to=ask-buddha.netlify.app) which is deployed using this method.
 
 ## Blog Post
 
