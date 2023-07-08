@@ -1,6 +1,12 @@
 [build]
 command = "yarn build-netlify"
 
+[build.environment]
+NEXT_USE_NETLIFY_EDGE = "true"
+
+[[plugins]]
+package = "@netlify/plugin-nextjs"
+
 [functions]
 deno_import_map = "./netlify/edge-functions/import_map.json"
 
