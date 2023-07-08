@@ -1,6 +1,5 @@
 import { OpenAIChat } from 'langchain/llms/openai';
 import { ConversationalRetrievalQAChain } from 'langchain/chains';
-import { BufferMemory } from "langchain/memory";
 
 
 export const makeChain = (vectorStore, callbackManager, env) => {
@@ -25,9 +24,6 @@ Helpful answer in markdown:`;
     vectorStore.asRetriever(),
     {
       qaTemplate: QA_PROMPT,
-      memory: new BufferMemory({
-        memoryKey: "chat_history", // Must be set to "chat_history"
-      }),
       returnSourceDocuments: true, //The number of source documents returned is 4 by default
     },
   );

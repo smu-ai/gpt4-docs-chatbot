@@ -78,8 +78,6 @@ const serve = async (req) => {
           await writer.ready;
           sendData(JSON.stringify({ sourceDocs: outputs.sourceDocuments }));
           await writer.close();
-        } else {
-          console.log('handleChainEnd:', outputs.text);
         }
       },
     });
