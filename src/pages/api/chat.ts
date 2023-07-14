@@ -22,8 +22,6 @@ export default async function handler(
     return res.status(400).json({ message: 'No question in the request' });
   }
 
-  let readyToSendData = !history || history.length === 0;
-
   // OpenAI recommends replacing newlines with spaces for best results
   const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
 
@@ -36,9 +34,7 @@ export default async function handler(
   });
 
   const sendData = (data: string) => {
-    if (readyToSendData) {
-      res.write(`data: ${data}\n\n`);
-    }
+    res.write(`data: ${data}\n\n`);
   };
 
   const callbackManagerForLLM = CallbackManager.fromHandlers({
@@ -47,9 +43,7 @@ export default async function handler(
     },
     handleLLMEnd: async (output: any) => {
       console.log('handleLLMEnd:', JSON.stringify(output));
-      if (!readyToSendData) {
-        readyToSendData = true;
-      }
+      await sendData(JSON.stringify({ token: "\n" }));
     },
     handleLLMError: async (e: any) => {
       console.error('handleLLMError:', e);
