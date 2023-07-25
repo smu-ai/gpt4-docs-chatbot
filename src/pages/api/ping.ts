@@ -1,14 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { initPinecone } from '@/utils/pinecone-client';
 import { PINECONE_INDEX_NAME } from '@/config/pinecone';
-import requestIp from 'request-ip'
 
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse,
 ) {
-    const detectedIp = requestIp.getClientIp(req)
-    console.log('pining from: ', detectedIp);
     //only accept GET requests
     if (req.method !== 'GET') {
         res.status(405).json({ error: 'Method not allowed' });
