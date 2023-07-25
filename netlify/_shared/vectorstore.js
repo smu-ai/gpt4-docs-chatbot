@@ -4,7 +4,7 @@ import { Chroma } from 'langchain/vectorstores/chroma';
 import { Milvus } from 'langchain/vectorstores/milvus';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib';
 
-async function initPinecone(env) {
+export async function initPinecone(env) {
   if (!env.get('PINECONE_ENVIRONMENT') || !env.get('PINECONE_API_KEY')) {
     throw new Error('Pinecone environment or api key vars missing');
   }
