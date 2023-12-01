@@ -22,7 +22,7 @@ Helpful answer in markdown:`;
 export const makeChain = (vectorStore: VectorStore, callbackManager: CallbackManager) => {
   const model = new OpenAIChat({
     temperature: 0,
-    modelName: 'gpt-4', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
+    modelName: 'gpt-4-1106-preview', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
     streaming: Boolean(callbackManager),
     callbackManager
   });

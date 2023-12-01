@@ -1,5 +1,5 @@
 import { PineconeStore } from 'langchain/vectorstores';
-import { PineconeClient } from '@pinecone-database/pinecone';
+import { Pinecone } from '@pinecone-database/pinecone';
 import { Chroma } from 'langchain/vectorstores/chroma';
 import { Milvus } from 'langchain/vectorstores/milvus';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib';
@@ -10,9 +10,7 @@ export async function initPinecone(env) {
   }
 
   try {
-    const pinecone = new PineconeClient();
-
-    await pinecone.init({
+    const pinecone = new Pinecone({
       environment: env.get('PINECONE_ENVIRONMENT'),
       apiKey: env.get('PINECONE_API_KEY'),
     });
