@@ -4,7 +4,7 @@
     "https://esm.sh/v128/@jimp/plugins@0.16.13/": "https://esm.sh/v128/@jimp/plugins@0.22.8/",
     "https://esm.sh/v128/@jimp/types@0.16.13/": "https://esm.sh/v128/@jimp/types@0.22.8/",
     "https://esm.sh/v128/@jimp/custom@0.16.13/": "https://esm.sh/v128/@jimp/custom@0.22.8/",
-    "@pinecone-database/pinecone": "https://esm.sh/@pinecone-database/pinecone@0.0.14",
+    "@pinecone-database/pinecone": "https://esm.sh/@pinecone-database/pinecone@1.1.2",
     "langchain/": "https://esm.sh/langchain@0.0.104/"
   }
 }
