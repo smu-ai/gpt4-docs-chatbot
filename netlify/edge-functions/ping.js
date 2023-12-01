@@ -21,9 +21,7 @@ const serve = async (req) => {
         const pinecone = await initPinecone();
         const PINECONE_INDEX_NAME = Deno.env.get('PINECONE_INDEX_NAME');
         const index = pinecone.Index(PINECONE_INDEX_NAME); //change to your own index name
-        const indexData = await index.describeIndexStats({
-            describeIndexStatsRequest: {},
-        });
+        const indexData = await index.describeIndexStats();
 
         console.log('PING response: ', indexData);
 

@@ -14,9 +14,7 @@ export default async function handler(
 
     const pinecone = await initPinecone();
     const index = pinecone.Index(PINECONE_INDEX_NAME!); //change to your own index name
-    const indexData = await index.describeIndexStats({
-        describeIndexStatsRequest: {},
-    });
+    const indexData = await index.describeIndexStats();
 
     console.log('PING response: ', indexData);
     res.json(indexData);
