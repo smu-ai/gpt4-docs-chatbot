@@ -2,7 +2,7 @@
 command = "yarn build-netlify"
 
 [build.environment]
-NEXT_USE_NETLIFY_EDGE = "true"
+NEXT_USE_NETLIFY_EDGE = "false"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"
