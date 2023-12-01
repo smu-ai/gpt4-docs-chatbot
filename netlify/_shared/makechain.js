@@ -5,7 +5,7 @@ import { ConversationalRetrievalQAChain } from 'langchain/chains';
 export const makeChain = (vectorStore, callbackManager, env) => {
   const model = new OpenAIChat({
     temperature: 0,
-    modelName: env.get('OPENAI_MODEL_NAME') ?? 'gpt-4', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
+    modelName: env.get('OPENAI_MODEL_NAME') ?? 'gpt-4-1106-preview', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
     streaming: Boolean(callbackManager),
     callbackManager
   });
