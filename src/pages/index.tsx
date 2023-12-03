@@ -224,9 +224,11 @@ export default function Home() {
     const ctrl = new AbortController();
 
     try {
+      const traditional_chinese = process.env.NEXT_PUBLIC_USE_TRADITIONAL_CHINESE
+      console.log("traditional_chinese:", traditional_chinese)
       if (toUseWebSocket) {
         if (webSocket.current && ready) {
-          const msg = { question, history };
+          const msg = { question, history, traditional_chinese };
           webSocket.current.send(JSON.stringify(msg));
         }
       } else {
@@ -239,6 +241,7 @@ export default function Home() {
           body: JSON.stringify({
             question,
             history,
+            traditional_chinese
           }),
           signal: ctrl.signal,
           onmessage(event) {

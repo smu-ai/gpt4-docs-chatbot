@@ -14,7 +14,7 @@ export default async function handler(
     return;
   }
 
-  const { question, history } = req.body;
+  const { question, history, traditional_chinese } = req.body;
 
   console.log('Question: ', question);
 
@@ -67,7 +67,7 @@ export default async function handler(
   }
 
   //create chain
-  const chain = makeChain(vectorStore, callbackManagerForLLM);
+  const chain = makeChain(vectorStore, callbackManagerForLLM, traditional_chinese);
 
   try {
     const timer = `Elapsed time:`;
