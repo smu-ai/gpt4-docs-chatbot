@@ -8,6 +8,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  const corsHeaders = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers":
+      "authorization, x-client-info, apikey, content-type",
+  };
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(200, corsHeaders);
+    res.send("OK");
+    return;
+  }
+
   //only accept post requests
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -26,6 +38,7 @@ export default async function handler(
   const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
 
   res.writeHead(200, {
+    ...corsHeaders,
     Connection: 'keep-alive',
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache, no-transform',
