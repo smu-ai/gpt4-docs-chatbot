@@ -1,6 +1,7 @@
 import { PineconeStore } from 'langchain/vectorstores';
 // import { Pinecone } from '@pinecone-database/pinecone';
-import { Pinecone } from 'https://esm.sh/v135/@pinecone-database/pinecone@1.1.2/es2022/pinecone.mjs'
+// import { Pinecone } from 'https://esm.sh/v135/@pinecone-database/pinecone@1.1.2/es2022/pinecone.mjs'
+import { Pinecone } from 'https://esm.sh/@pinecone-database/pinecone@1.1.2'
 import { Chroma } from 'langchain/vectorstores/chroma';
 import { Milvus } from 'langchain/vectorstores/milvus';
 import { HNSWLib } from 'langchain/vectorstores/hnswlib';
